@@ -41,7 +41,16 @@ class Server:
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> dict:
         """
-        
+        Return paginated data with resilience to deletions in the dataset
+        Args:
+            index (int): The current start index (must be within valid range)
+            page_size (int): The number of items to return
+        Returns:
+            Dict[str, Any]: A dictionary with pagination metadata:
+                - index: the original index queried
+                - next_index: the index to use for the next query
+                - page_size: the number of items returned
+                - data: the list of items on the current page
         """
         assert type(index) is int and 0 <= index < len(self.dataset())
 
@@ -54,7 +63,7 @@ class Server:
         nb_elements = 0
         new_index = index
 
-        while nb_elements < page_size and new_index < len(dataset):
+        while new_index < len(dataset) and nb_elements < page_size:
             if new_index in dataset:
                 data.append(dataset[new_index])
                 nb_elements += 1
