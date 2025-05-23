@@ -5,14 +5,14 @@ function countStudents(dbPath) {
     throw new Error('Cannot load the database');
   } else {
     const data = fs.readFileSync(dbPath, 'utf-8');
-    const lines = data.split('\n').filter(line => line.trim() !== '');
+    const lines = data.split('\n').filter((line) => line.trim() !== '');
 
     const headers = lines[0].split(',');
     const fieldIndex = headers.indexOf('field');
 
     const students = {};
 
-    for (let i = 1; i < lines.length; i++) {
+    for (let i = 1; i < lines.length; i += 1) {
       const columns = lines[i].split(',');
       const field = columns[fieldIndex].trim();
       const firstname = columns[0].trim();
