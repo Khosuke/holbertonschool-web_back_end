@@ -3,14 +3,14 @@ const fs = require('fs').promises;
 
 async function countStudents(dbPath) {
   const data = await fs.readFile(dbPath, 'utf-8');
-  const lines = data.split('\n').filter(line => line.trim() !== '');
+  const lines = data.split('\n').filter((line) => line.trim() !== '');
   const headers = lines[0].split(',');
   const fieldIndex = headers.indexOf('field');
 
   const students = {};
   let total = 0;
 
-  for (let i = 1; i < lines.length; i++) {
+  for (let i = 1; i < lines.length; i += 1) {
     const columns = lines[i].split(',');
     const field = columns[fieldIndex].trim();
     const firstname = columns[0].trim();
@@ -20,7 +20,7 @@ async function countStudents(dbPath) {
         students[field] = [];
       }
       students[field].push(firstname);
-      total++;
+      total += 1;
     }
   }
 
